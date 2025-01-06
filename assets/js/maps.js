@@ -3,6 +3,8 @@ async function initMap() {
     const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary(
     "marker"
     );
+
+    //Rendering The Map
     const map = new google.maps.Map(document.getElementById("map"), {
     zoom: 3,
     center: {
@@ -12,6 +14,8 @@ async function initMap() {
     mapId: "DEMO_MAP_ID",
     });
     
+    
+    //Adding Markers To The Map
     var labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     
     var locations = [
@@ -43,4 +47,4 @@ async function initMap() {
     new markerClusterer.MarkerClusterer({ markers, map });
     }
     
-    initMap();
+initMap();
