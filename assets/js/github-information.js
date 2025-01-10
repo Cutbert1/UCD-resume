@@ -1,4 +1,4 @@
-//user information displaying on the screen
+//user information displaying on the screen i.e. Rendering user information
 function userInformationHTML(user) {
    return `
         <h2>${user.name}
@@ -7,14 +7,39 @@ function userInformationHTML(user) {
             </span>
          </h2>
          <div class="gh-content>
-            <div class="gh-avatar"
-                <a href="${user.html_url} target="_blank">
-                   <img src="${user.avatar_url}" width="80 height="80 alt="${user.login}" />
+            <div class="gh-avatar">
+                <a href="${user.html_url}" target="_blank">
+                   <img src="${user.avatar_url}" width="80" height="80" alt="${user.login}" />
                 </a>
             </div>
             <p>Followers: ${user.followers} - Following ${user.following} <br> Repos: ${user.public_repos}</p>
          </div>`;
 }
+
+
+// User Repos information displaying on screen i.e. Rendering user repo information
+function repoInformationHTML(repos) {
+   if (repos.length == 0) {
+      return `<div class="clearfix repo-list">No repos!</div>`
+   }
+
+   var listItemsHTML = repos.map(function(repo) {
+      return `<li>
+                  <a href="${repo.html_url}" target="_blank">${repo.name}</a>
+              </li>`;
+   });
+
+   return `<div class="clearfix repo-list">
+               <p>
+                   <strong>Repo List:</strong>
+               </p>
+               <ul>
+                   ${listItemsHTML.join("\n")}
+               </ul>
+           </div>`;
+
+}
+
 
 // fetch github user information
 function fetchGitHubInformation(event) {
@@ -36,9 +61,9 @@ function fetchGitHubInformation(event) {
    ).then(
       function(firstResponse, secondResponse) {
          var userData = firstResponse[0];
-         var userData = secondResponse[0];
+         var repoData = secondResponse[0];
          $("#gh-user-data").html(userInformationHTML(userData));
-         $("#gh-user-data").html(repoInformationHTML(repoData));
+         $("#gh-repo-data").html(repoInformationHTML(repoData));
       }, function(errorResponse) {
          if (errorResponse.status === 404) {
             $("#gh-user-data").html(
